@@ -1,5 +1,7 @@
 # PJ1 相机标定
 
+仓库地址：https://github.com/geniusLouis/PJ1-camera-calibration
+
 智能信息处理课程六人协作项目。使用 OpenCV，对标定板2左相机的4张图进行单目标定，方格边长30mm，图像1024×576。截止2026年11月18日23:59。
 
 此仓库起始版本包含报告框架和4张输入图片，实验代码、参数和结论由负责人依次完成。模板中的“待填写”不代表已经有实验结果。
@@ -71,7 +73,7 @@ git config --global user.email "你的GitHub提交邮箱"
 只需要 clone 一次。将下方实际仓库地址替换为 GitHub 页面复制的地址：
 
 ```bash
-git clone <实际仓库HTTPS地址> PJ1-camera-calibration
+git clone https://github.com/geniusLouis/PJ1-camera-calibration.git PJ1-camera-calibration
 cd PJ1-camera-calibration
 git status
 ```
