@@ -38,6 +38,21 @@ README.md
 
 11月16日至17日各自核对本章并试讲；11月18日截止前由一位成员提交。若实际开工晚于计划，组内顺延交接时间并保留最终检查时间。
 
+## 将本地仓库发布到 GitHub
+
+首次发布由仓库所有者完成一次即可。推荐使用 GitHub Desktop，无需先在网页创建空仓库：
+
+1. 安装并登录 GitHub Desktop：https://desktop.github.com/ 。
+2. 选择 File → Add Local Repository（添加本地仓库）。
+3. 选择当前 PJ1-camera-calibration 文件夹，不要选择它的父目录，也不要新建一个空文件夹。
+4. 点击 Publish repository，仓库名称填 PJ1-camera-calibration，保留 Keep this code private，发布到个人账号。
+5. 发布完成后选择 Repository → View on GitHub，确认页面中有 README.md、“报告”和“代码”。原始4张图片位于“代码/数据”。
+6. 在网页 Settings → Collaborators 邀请其他5人的GitHub账号，成员接受邀请后才能推送。
+
+GitHub Desktop会将现有目录和提交记录一起发布，无需重新上传或手动创建两个文件夹。若已在网页创建同名仓库，先停止使用上述Publish流程，改为给本地仓库配置该空仓库的origin并push，避免创建两个仓库。
+
+发布后的成员操作仍按下方接力流程：第一次clone，以后开始前pull，完成后commit和push。Word第1章至第6章各从新页开始，成员只填写自己的章节。
+
 ## 开始协作前
 
 仓库建议设为 Private。仓库所有者在 GitHub 的 Settings → Collaborators 添加另外5位成员，成员接受邀请后才能直接 push。需要每个人的 GitHub 用户名才能发出邀请；姓名不能用于确定账号。仓库创建和邀请完成后，大家使用仓库页面的 Code 按钮复制实际 HTTPS 地址。不要把GitHub密码或访问令牌写进命令、代码或报告。
