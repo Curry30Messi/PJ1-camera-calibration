@@ -1,87 +1,91 @@
-# PJ1 相机标定
+# PJ1 Camera Calibration
 
-智能信息处理课程项目。基于张正友平面标定方法，使用 Python 与 OpenCV 完成单目相机标定，估计内参、畸变系数及各视图外参，并通过误差分析、去畸变和对照实验评估标定结果。
+A collaborative project for the Intelligent Information Processing course. The project uses Python and OpenCV to perform monocular camera calibration based on Zhang's planar calibration method, estimate intrinsic parameters, distortion coefficients and per-view extrinsics, and evaluate the results through controlled experiments.
 
-**提交截止：2026年11月18日 23:59（北京时间）**
+**Submission deadline: November 18, 2026, 23:59 (Asia/Shanghai).**
 
-当前仓库包含报告模板与原始标定图像，实验代码及结果由各模块负责人依次补充。
+The repository currently contains a report template and four input images. Experiment scripts and results will be added by the assigned contributors.
 
-## 实验数据与技术方案
+## Experimental Setup
 
-| 项目 | 配置 |
+| Item | Configuration |
 |---|---|
-| 数据组 | 标定板2，左相机 |
-| 图像 | `Im_L_1.png` 至 `Im_L_4.png` |
-| 图像尺寸 | 1024 × 576像素 |
-| 方格边长 | 30mm |
-| 棋盘坐标 | Z = 0，三维坐标单位为mm |
-| 基础模型 | 估计径向畸变 k1、k2，固定 k3、p1、p2 及像素轴斜切为0 |
-| 评价指标 | 总体与逐图重投影RMSE、直线拟合残差、参数变化 |
+| Dataset | Calibration board 2, left camera |
+| Images | `Im_L_1.png` through `Im_L_4.png` |
+| Resolution | 1024 × 576 pixels |
+| Square size | 30 mm |
+| Board coordinates | Z = 0; object coordinates in mm |
+| Baseline model | Estimate k1 and k2; fix k3, p1, p2 and skew to zero |
+| Metrics | Overall and per-view reprojection RMSE, line-fitting residuals, parameter variation |
 
-实验流程为：角点检测与亚像素细化、基础标定、重投影误差分析、图像去畸变、畸变模型对比、图像子集稳定性分析。内角点行列数及对应点顺序在数据处理阶段核定，后续实验使用统一配置。
+The pipeline covers corner detection and subpixel refinement, baseline calibration, residual analysis, image undistortion, distortion-model comparison, and image-subset stability. Inner-corner dimensions and point ordering must be verified during data preparation and shared across all experiments.
 
-## 目录结构
+## Repository Structure
 
 ```text
 .
 ├── README.md
-├── 报告/
-│   └── 组X-相机标定.docx
-└── 代码/
-    ├── 数据/                 原始标定图像
-    └── 结果/                 角点、参数、统计表与实验图片
+├── report/
+│   └── camera-calibration.docx
+└── code/
+    ├── data/                 Original calibration images
+    └── results/              Corners, parameters, tables and figures
 ```
 
-实验脚本统一放在 `代码/` 下，依赖版本记录于 `代码/requirements.txt`。脚本使用相对路径定位数据与输出，原始图像保持不变。报告正文包含关键代码、实验结果、相关图片及分析，完整源代码另行保留。
+Place experiment scripts under `code/` and record dependencies in `code/requirements.txt`. Resolve paths relative to the project or script location. Preserve the original input images. Include key code excerpts, result tables, figures and analysis in the report while retaining the complete source files separately.
 
-## 成员分工与进度
+Repository paths and identifiers use English. The report body remains in Chinese. Any directory references retained in the report template correspond to `report/`, `code/`, `code/data/` and `code/results/` in this repository.
 
-| 成员 | 模块及实验内容 | 计划脚本 | 报告章节 | 计划完成日期 |
+## Contributors and Schedule
+
+| Contributor | Responsibilities | Planned script | Report section | Target date |
 |---|---|---|---|---|
-| 卢远卓 | 数据核对、棋盘坐标构造、角点检测与细化；检测成功率、位移和耗时分析 | `detect_corners.py` | 第1章 | 11月8日 |
-| 于智博 | 公共标定函数、基础内外参及畸变估计；30mm与60mm方格尺度对照 | `calibrate.py` | 第2章 | 11月9日 |
-| 竺钱成 | 公共重投影误差函数；逐图、中心与外围区域残差分析 | `evaluate.py` | 第3章 | 11月10日 |
-| 张帅宇 | 图像去畸变、校正前后对照与局部放大；棋盘行列直线性验证 | `undistort.py` | 第4章 | 11月11日 |
-| 杨晓芳 | 无畸变、径向、径向加切向三类模型的参数、误差及校正效果对比 | `compare_models.py` | 第5章 | 11月12日至13日 |
-| 郑周锐 | 三图子集与四图全量标定对比；参数稳定性分析与结果归纳 | `subset_stability.py` | 第6章 | 11月14日至15日 |
+| Lu Yuanzhuo | Dataset verification, object-point generation, corner detection and refinement; detection rate, displacement and runtime analysis | `detect_corners.py` | Chapter 1 | Nov 8 |
+| Yu Zhibo | Shared calibration function, intrinsic and extrinsic estimation; 30 mm versus 60 mm scale comparison | `calibrate.py` | Chapter 2 | Nov 9 |
+| Zhu Qiancheng | Shared reprojection-error function; per-view and central/peripheral residual analysis | `evaluate.py` | Chapter 3 | Nov 10 |
+| Zhang Shuaiyu | Undistortion, before/after comparisons and detail views; board-row or column straightness evaluation | `undistort.py` | Chapter 4 | Nov 11 |
+| Yang Xiaofang | Comparison of zero-distortion, radial-only and radial-plus-tangential models | `compare_models.py` | Chapter 5 | Nov 12–13 |
+| Zheng Zhourui | Three-view subsets versus all four views; parameter stability and result summary | `subset_stability.py` | Chapter 6 | Nov 14–15 |
 
-各成员负责对应模块的代码、实验与报告，按表中顺序交付。11月16日至17日完成内容复核与讲解准备。上述脚本为约定名称，当前版本尚未实现。
+Each contributor owns the implementation, experiment and report section for their module. Delivery follows the order above. Content review and presentation preparation are scheduled for November 16–17. Script names are planned interfaces; the scripts have not yet been implemented.
 
-## 模块接口与实验规范
+## Interfaces and Evaluation
 
-- **角点数据**：保存图像名、图像尺寸、内角点行列数、方格尺寸、细化前后二维角点及对应三维点，确保点序一致。
-- **标定结果**：保存内参矩阵K、畸变系数及排列顺序、逐图旋转与平移向量、所用图像和模型设置。公共标定函数支持不同图像子集及畸变配置。
-- **误差计算**：重投影RMSE定义为各角点二维欧氏距离平方的均值再开平方，单位为像素；逐图及总体统计采用相同口径。
-- **去畸变评价**：记录输出内参和裁剪设置，将同一批角点转换至校正后的像素坐标，再进行直线拟合与比较。
-- **对照实验**：模型对比固定图像及角点，子集实验固定畸变模型。60mm方格尺寸仅用于尺度对照，正式结果使用30mm。
-- **结果解释**：训练重投影误差不等同于真实标定精度；四图全量参数作为稳定性比较的参考，不视为相机真值。保留失败配置及其说明。
+- **Corner data:** Store image names, image size, inner-corner dimensions, square size, initial and refined image points, and corresponding object points. Maintain consistent point ordering.
+- **Calibration output:** Store K, distortion coefficients and their ordering, per-view rotation and translation vectors, selected images and model configuration. The shared function must support image subsets and distortion-model settings.
+- **Reprojection error:** Compute RMSE as the square root of the mean squared two-dimensional Euclidean distance between detected and projected corners. Use the same definition for per-view and overall results, in pixels.
+- **Undistortion:** Record the output intrinsic matrix and cropping configuration. Transform the same detected points into the corrected pixel coordinate system before fitting board lines.
+- **Controlled comparisons:** Keep images and corners fixed when comparing distortion models. Keep the model fixed when comparing subsets. The 60 mm square size is a scale-control experiment; the formal calibration uses 30 mm.
+- **Interpretation:** Training reprojection error is not ground-truth calibration accuracy. Treat the four-view estimate as a stability reference, not as true camera parameters. Retain failed configurations and document their causes.
 
-## 版本与交付约定
+## Collaboration and Deliverables
 
-项目采用 `main` 分支顺序协作。成员基于远端最新版本开展工作，完成后同步提交代码、实验输出及对应报告章节，并记录提交号和运行方式。公共函数由后续模块复用。
+Development follows sequential delivery on `main`. Contributors start from the latest remote revision and submit source code, experiment outputs and the corresponding report section together. Record the commit identifier and execution details at each handover. Reuse shared functions in subsequent modules.
 
-报告统一维护 `报告/组X-相机标定.docx`，各章从新页开始。Word文件按成员顺序串行编辑，避免二进制文件合并冲突；已完成章节及前序代码予以保留。提交说明应包含成员姓名、模块或章节及主要变更。
+Maintain one report at `report/camera-calibration.docx`, with each chapter starting on a new page. Edit the Word document sequentially to avoid binary merge conflicts. Preserve completed sections and earlier modules. Use English commit messages identifying the contributor, module and main change.
 
-每个模块的交付包括：
+Each module must deliver:
 
-1. 可运行源代码及依赖说明。
-2. 参数文件、统计结果和实验图片。
-3. 已填写的报告章节，包含实验设置、关键代码、结果及分析。
-4. 运行命令、输入输出位置和后续模块所需配置。
+1. Runnable source code and dependency information.
+2. Parameter files, numerical results and experiment figures.
+3. A completed report section covering configuration, key code, results and analysis.
+4. Execution commands, input/output locations and configuration needed by downstream modules.
 
-## 运行记录
+## Execution Record
 
-各模块完成后补充实际入口、依赖版本及输出位置。
+Complete this table as each module becomes available.
 
-| 模块 | 运行命令 | 主要输出 |
+| Module | Command | Main outputs |
 |---|---|---|
-| 角点检测 | 待补充 | 二维角点、三维棋盘点、检测可视化与统计 |
-| 基础标定 | 待补充 | 内参、畸变、逐图外参及尺度对照结果 |
-| 误差评估 | 待补充 | 逐点残差、逐图与总体误差、区域统计 |
-| 去畸变 | 待补充 | 校正图、局部对照与直线性指标 |
-| 模型对比 | 待补充 | 各模型参数、误差和校正效果 |
-| 子集稳定性 | 待补充 | 各图像组合参数、误差与变化分析 |
+| Corner detection | Pending | Image/object points, detection visualizations and statistics |
+| Baseline calibration | Pending | Intrinsics, distortion, per-view extrinsics and scale comparison |
+| Error evaluation | Pending | Point residuals, per-view and overall errors, regional statistics |
+| Undistortion | Pending | Corrected images, detail comparisons and straightness metrics |
+| Model comparison | Pending | Model parameters, errors and corrected-image comparisons |
+| Subset stability | Pending | Parameters, errors and variation across image combinations |
 
-## 提交要求
+## Submission
 
-报告命名为 `组号-相机标定.docx`，开头列明组员及负责内容，正文包含方法、单目图像和实验结果。报告与完整代码、输入数据、实验输出及运行说明一并打包为 `组号-相机标定.zip`，由一位成员上传至Elearning。提交包不包含 `.git`、虚拟环境或临时文件。
+For Elearning submission, rename the report using the course-required format: group identifier followed by the Chinese report title for camera calibration, separated by a hyphen, with the `.docx` extension. The English repository filename is for version control only.
+
+The report must list members and contributions at the beginning and include the method, monocular images and experimental results. Package it with complete source code, input data, experiment outputs and execution instructions in one ZIP archive using the corresponding course-required name. One group member submits the archive. Exclude `.git`, virtual environments and temporary files.
