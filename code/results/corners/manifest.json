@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "pattern_size": [
+    11,
+    7
+  ],
+  "square_size_mm": 30.0,
+  "image_size": [
+    1024,
+    576
+  ],
+  "point_order": "row-major, index=row*11+column; image topmost end is index 0",
+  "origin_note": "Per-view board frame; unmarked board has 180-degree physical-origin ambiguity",
+  "detection_flags": 3,
+  "subpix_half_window": [
+    5,
+    5
+  ],
+  "zero_zone": [
+    -1,
+    -1
+  ],
+  "termination": {
+    "max_iterations": 100,
+    "epsilon_px": 0.001
+  },
+  "benchmark": {
+    "warmups": 3,
+    "repetitions": 30,
+    "threads": 1,
+    "io_included": false,
+    "summary": "median and IQR"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "opencv": "4.13.0",
+    "numpy": "2.3.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "images": [
+    {
+      "name": "Im_L_1.png",
+      "sha256": "ec4bd9bc03532736ef9aeec414f28df59ff0c0af6f0036b5d1e1b59fef1be590"
+    },
+    {
+      "name": "Im_L_2.png",
+      "sha256": "ba2ed16a6b3c3a7baacc09fb223d9872d20af84cb28320e046aef62a1f037236"
+    },
+    {
+      "name": "Im_L_3.png",
+      "sha256": "3f7d602e715fd384abd0be51a37cd05afe093f40d1568d852cac95bc86548426"
+    },
+    {
+      "name": "Im_L_4.png",
+      "sha256": "b07bda870e17e67ff9d7432a641d663edd8d5dd5b51674de11556c4d0ccd8ca8"
+    }
+  ],
+  "summary": [
+    {
+      "image": "Im_L_1.png",
+      "width": 1024,
+      "height": 576,
+      "detected": true,
+      "corners": 77,
+      "mean_shift_px": 0.08999007495135351,
+      "median_shift_px": 0.07605812706881786,
+      "p95_shift_px": 0.21409428588106047,
+      "max_shift_px": 0.40788935878166593,
+      "detect_median_ms": 1.291958,
+      "detect_iqr_ms": 0.09166699999999994,
+      "refine_median_ms": 0.068917,
+      "refine_iqr_ms": 0.000823499999999977
+    },
+    {
+      "image": "Im_L_2.png",
+      "width": 1024,
+      "height": 576,
+      "detected": true,
+      "corners": 77,
+      "mean_shift_px": 0.1197182578054451,
+      "median_shift_px": 0.11023498808719352,
+      "p95_shift_px": 0.25661247507329205,
+      "max_shift_px": 0.3634487222405086,
+      "detect_median_ms": 1.370062,
+      "detect_iqr_ms": 0.06698949999999981,
+      "refine_median_ms": 0.071209,
+      "refine_iqr_ms": 0.0027720000000000106
+    },
+    {
+      "image": "Im_L_3.png",
+      "width": 1024,
+      "height": 576,
+      "detected": true,
+      "corners": 77,
+      "mean_shift_px": 0.08833851161569102,
+      "median_shift_px": 0.06963873281597915,
+      "p95_shift_px": 0.20881244698168422,
+      "max_shift_px": 0.3129322043424694,
+      "detect_median_ms": 1.2668335,
+      "detect_iqr_ms": 0.06708350000000007,
+      "refine_median_ms": 0.069834,
+      "refine_iqr_ms": 0.00015574999999999617
+    },
+    {
+      "image": "Im_L_4.png",
+      "width": 1024,
+      "height": 576,
+      "detected": true,
+      "corners": 77,
+      "mean_shift_px": 0.06550786878715721,
+      "median_shift_px": 0.05841778718492255,
+      "p95_shift_px": 0.14342399961828273,
+      "max_shift_px": 0.19784021495651932,
+      "detect_median_ms": 1.2588955,
+      "detect_iqr_ms": 0.06962550000000012,
+      "refine_median_ms": 0.06325,
+      "refine_iqr_ms": 0.0001250000000000001
+    }
+  ]
+}
