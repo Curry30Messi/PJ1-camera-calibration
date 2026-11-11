@@ -1,0 +1,28 @@
+{
+  "calibration_file": "code/results/calibration/calibration_30mm.json",
+  "corners_file": "code/results/corners/corners.npz",
+  "image_names": [
+    "Im_L_1.png",
+    "Im_L_2.png",
+    "Im_L_3.png",
+    "Im_L_4.png"
+  ],
+  "point_count": 308,
+  "recomputed_rmse_px": 0.17446205261533343,
+  "calibration_rmse_px": 0.17446205261533343,
+  "absolute_difference_px": 0.0,
+  "tolerance_px": 1e-06,
+  "center_bounds_px": {
+    "u": [
+      256.0,
+      768.0
+    ],
+    "v": [
+      144.0,
+      432.0
+    ]
+  },
+  "center_bounds_convention": "Observed coordinates; inclusive lower, exclusive upper.",
+  "residual_definition": "observed - projected",
+  "vector_scale": 40
+}

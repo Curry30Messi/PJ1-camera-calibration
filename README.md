@@ -4,7 +4,7 @@
 
 **提交截止：2026年11月18日 23:59（北京时间）**
 
-当前已完成第1章数据核对、角点检测、亚像素细化及窗口对照实验，已交付4幅图共308组角点观测。后续标定与评估模块由对应负责人继续完成。
+当前已完成第1至3章。4幅图共308个亚像素角点用于30 mm基础标定，复算的总体重投影RMSE为0.174462 px，与标定返回值一致。
 
 ## 实验数据与技术方案
 
@@ -47,7 +47,7 @@
 | 杨晓芳 | 无畸变、径向、径向加切向三类模型的参数、误差及校正效果对比 | `compare_models.py` | 第5章 | 11月12日至13日 |
 | 郑周锐 | 三图子集与四图全量标定对比；参数稳定性分析与结果归纳 | `subset_stability.py` | 第6章 | 11月14日至15日 |
 
-各成员负责对应模块的代码、实验与报告，按表中顺序交付。11月16日至17日完成内容复核与讲解准备。`detect_corners.py`已实现，其余脚本为后续模块的约定名称。
+各成员负责对应模块的代码、实验与报告，按表中顺序交付。11月16日至17日完成内容复核与讲解准备。`detect_corners.py`、`calibrate.py` 和 `evaluate.py` 已实现。
 
 ## 模块接口与实验规范
 
@@ -78,8 +78,8 @@
 | 模块 | 运行命令 | 主要输出 |
 |---|---|---|
 | 角点检测 | `python code/detect_corners.py` | `code/results/corners/`：角点NPZ、4张编号图、完整统计表与实验图 |
-| 基础标定 | 待补充 | 内参、畸变、逐图外参及尺度对照结果 |
-| 误差评估 | 待补充 | 逐点残差、逐图与总体误差、区域统计 |
+| 基础标定 | `python code/calibrate.py` | `code/results/calibration/` 中的30 mm与60 mm标定参数 |
+| 误差评估 | `python code/evaluate.py` | `code/results/evaluation/` 中的逐点残差、逐图和区域统计、RMSE核对及结果图 |
 | 去畸变 | 待补充 | 校正图、局部对照与直线性指标 |
 | 模型对比 | 待补充 | 各模型参数、误差和校正效果 |
 | 子集稳定性 | 待补充 | 各图像组合参数、误差与变化分析 |
@@ -101,3 +101,33 @@ python -m unittest discover -s code -p 'test_*.py' -v
 ```
 
 详细字段、数组形状、点序定义、实验设置与后续标定读取示例见 [角点数据说明](code/results/corners/README.md)。正式观测使用 `corners.npz` 中的 `image_points_refined`，保持 `image_names` 的顺序，并与 `object_points` 逐幅对应。计时数据为本机实测值，重新运行会随负载变化。
+
+## 第3章复现与数据交接
+
+在仓库根目录运行：
+
+```bash
+python -m pip install -r code/requirements.txt
+python code/evaluate.py
+```
+
+脚本从自身目录定位输入，直接读取第1章的 [亚像素角点](code/results/corners/corners.npz)、第2章的 [30 mm 基础参数](code/results/calibration/calibration_30mm.json) 和四张原图。保持角点与标定文件中的图像及逐点顺序一致。外参平移单位为 mm，畸变系数按 OpenCV 顺序 [k1, k2, p1, p2, k3]。总体 RMSE 与标定返回值的绝对差须小于或等于 10⁻⁶ px。逐点残差为观测减投影。中心为观测像素坐标满足 256 ≤ u < 768 且 144 ≤ v < 432 的点，其余归入外围。矢量图的箭头放大 40 倍。
+
+[误差结果目录](code/results/evaluation) 中，points.csv 给出逐点观测、投影、残差及零基棋盘行列索引，summary.csv 给出逐图与总体的 RMSE 和最大误差，regions.csv 给出逐图及汇总的区域统计，verification.json 保存参数文件路径及 RMSE 核对结果。figures/ 含逐图 RMSE 柱状图和四张残差矢量图。
+
+### 公共误差函数
+
+后续脚本放在 code/ 时，可直接使用公共标定与误差函数。objects、observations 与外参均按相同的视图顺序排列，支持传入三图子集。总体误差对所有角点合并计算。
+
+```python
+import numpy as np
+from calibrate import calibrate
+from evaluate import reprojection_errors, rmse_px
+
+rms, K, dist, rvecs, tvecs = calibrate(objects, observations, image_size)
+views = reprojection_errors(objects, observations, K, dist, rvecs, tvecs)
+per_view = [rmse_px(view.distances) for view in views]
+pooled = rmse_px(np.concatenate([view.distances for view in views]))
+```
+
+第4章可沿用 30 mm 基础参数中的 K 和 dist_coeffs，以及 corners.npz 的 image_points_refined 和 pattern_size，以同一批角点比较校正前后的直线性。
